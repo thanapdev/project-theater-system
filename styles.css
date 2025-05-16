@@ -1,0 +1,192 @@
+:root {
+  --primary-color: #facc15;
+  --secondary-color: #1f2937;
+  --bg-color: #0f172a;
+  --text-color: #f1f5f9;
+  --accent-color: #10b981;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  min-height: 100vh;
+}
+
+.container {
+  max-width: 1200px;
+  margin: auto;
+  padding: 2rem;
+  animation: fadeInUp 0.6s ease-out;
+}
+
+h1, h2, h3, h4 {
+  margin-bottom: 1rem;
+}
+
+.text-yellow {
+  color: var(--primary-color);
+}
+
+.btn-primary {
+  background-color: var(--primary-color);
+  color: black;
+  padding: 0.6rem 1.2rem;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.btn-primary:hover {
+  background-color: #eab308;
+}
+
+.btn-secondary {
+  background-color: #374151;
+  color: white;
+  padding: 0.6rem 1.2rem;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.btn-secondary:hover {
+  background-color: #4b5563;
+}
+
+.card {
+  background-color: var(--secondary-color);
+  border-radius: 0.75rem;
+  padding: 1.5rem;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+  transition: transform 0.3s ease;
+  animation: fadeInUp 0.5s ease-out;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+}
+
+.grid {
+  display: grid;
+  gap: 2rem;
+}
+
+.movie-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1.5rem;
+}
+
+img {
+  width: 100%;
+  height: auto;
+  border-radius: 0.5rem;
+  object-fit: cover;
+}
+
+.seat {
+  width: 2rem;
+  height: 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #4b5563;
+  border-radius: 0.25rem;
+  cursor: pointer;
+  user-select: none;
+  font-size: 0.75rem;
+  transition: background-color 0.2s ease;
+}
+
+.seat.selected {
+  background-color: var(--accent-color);
+  color: white;
+}
+
+.summary-item {
+  display: flex;
+  justify-content: space-between;
+  padding: 0.5rem 0;
+}
+
+.ticket {
+  max-width: 500px;
+  margin: 2rem auto;
+  padding: 2rem;
+  border: 2px dashed var(--primary-color);
+  border-radius: 1rem;
+  text-align: center;
+  background-color: #1e293b;
+  animation: zoomIn 0.5s ease;
+}
+
+.ticket svg {
+  width: 4rem;
+  height: 4rem;
+  margin-bottom: 1rem;
+  fill: none;
+  stroke: var(--primary-color);
+  stroke-width: 2;
+}
+
+.back-button {
+  margin-bottom: 1.5rem;
+  font-size: 1rem;
+  color: var(--primary-color);
+  cursor: pointer;
+  transition: color 0.3s ease;
+}
+
+.back-button:hover {
+  color: #eab308;
+}
+
+.fade-in {
+  opacity: 0;
+  animation: fadeIn 0.5s ease forwards;
+}
+
+@keyframes fadeIn {
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes zoomIn {
+  from {
+    transform: scale(0.8);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+@media (max-width: 768px) {
+  .grid {
+    grid-template-columns: 1fr;
+  }
+
+  .movie-grid {
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  }
+}
