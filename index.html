@@ -7,16 +7,33 @@
   <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
+  <!-- Navbar -->
   <header class="navbar">
     <div class="container flex justify-between items-center py-4">
-      <h1 class="text-2xl font-bold text-yellow">CinemaMax</h1>
-      <nav class="hidden md:flex space-x-6">
-        <a href="#" class="hover:text-yellow transition">Home</a>
-        <a href="#" class="hover:text-yellow transition">Movies</a>
-        <a href="#" class="hover:text-yellow transition">Contact</a>
-      </nav>
+      <div class="logo">CinemaMax</div>
+
+      <!-- Hamburger Icon -->
+      <div class="menu-toggle" id="menuToggle">
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
     </div>
   </header>
+
+  <!-- Sidebar -->
+  <div class="sidebar" id="sidebar">
+    <nav>
+      <a href="#">Home</a>
+      <a href="#">Now Showing</a>
+      <a href="#">Coming Soon</a>
+      <a href="#">Bookings</a>
+      <a href="#">Contact</a>
+    </nav>
+  </div>
+
+  <!-- Overlay -->
+  <div class="overlay" id="overlay"></div>
 
   <main id="app"></main>
 

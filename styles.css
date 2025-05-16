@@ -116,8 +116,20 @@ body {
 
 .movie-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  gap: 1.5rem;
+  grid-template-columns: repeat(3, 1fr); /* Show exactly 3 items per row */
+  gap: 2rem; /* Space between cards */
+}
+
+@media (max-width: 1024px) {
+  .movie-grid {
+    grid-template-columns: repeat(2, 1fr); /* 2 per row on tablet */
+  }
+}
+
+@media (max-width: 640px) {
+  .movie-grid {
+    grid-template-columns: 1fr; /* 1 per row on mobile */
+  }
 }
 
 /* Header & Navigation */
@@ -144,4 +156,114 @@ section h2 {
 /* Hover Shadows */
 .card:hover {
   box-shadow: 0 8px 20px rgba(222, 208, 184, 0.2);
+}
+
+/* NAVBAR */
+.navbar {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  background-color: rgba(34, 40, 49, 0.95);
+  backdrop-filter: blur(10px);
+  transition: background 0.3s ease;
+}
+
+.navbar .container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: relative;
+}
+
+.logo {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: var(--accent-color);
+}
+
+.menu-toggle {
+  display: block;
+  width: 30px;
+  height: 24px;
+  position: relative;
+  cursor: pointer;
+  z-index: 20;
+}
+
+.menu-toggle span {
+  display: block;
+  width: 100%;
+  height: 3px;
+  background-color: var(--accent-color);
+  margin: 5px 0;
+  transition: all 0.4s ease;
+}
+
+/* Sidebar */
+.sidebar {
+  position: fixed;
+  top: 0;
+  left: -250px;
+  width: 250px;
+  height: 100vh;
+  background-color: var(--secondary-2);
+  padding-top: 4rem;
+  transition: left 0.4s ease;
+  z-index: 15;
+}
+
+.sidebar.active {
+  left: 0;
+}
+
+.sidebar a {
+  display: block;
+  padding: 1rem 2rem;
+  color: var(--text-color);
+  text-decoration: none;
+  font-size: 1.1rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  transition: background 0.3s ease;
+}
+
+.sidebar a:hover {
+  background-color: var(--secondary-1);
+  color: var(--accent-color);
+}
+
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: transparent;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.4s ease;
+  z-index: 10;
+}
+
+.overlay.active {
+  opacity: 0.5;
+  visibility: visible;
+}
+
+.seat {
+  width: 2rem;
+  height: 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #4b5563;
+  border-radius: 0.25rem;
+  cursor: pointer;
+  user-select: none;
+  transition: background-color 0.2s ease;
+}
+
+.seat.selected {
+  background-color: var(--accent-color);
+  color: black;
+  font-weight: bold;
 }
