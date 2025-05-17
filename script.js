@@ -62,64 +62,60 @@ function renderApp() {
 
   else if (currentPage === "booking") {
     app.innerHTML = `
-      <section class="container">
-        <button class="btn-primary mb-4" onclick="goToHome()">← Back to Home</button>
-        <h2 class="text-3xl font-bold mb-6 text-accent">Book "${selectedMovie.title}"</h2>
+      <div class="container">
+  <!-- Movie Info -->
+  <div class="movie-info card mb-6">
+    <img src="${selectedMovie.image}" alt="${selectedMovie.title}" class="w-full h-96 object-cover rounded-md mb-4">
+    <h3 class="text-xl font-bold">${selectedMovie.title}</h3>
+    <p class="showtime-text">Showtime: 7:30 PM</p>
+  </div>
 
-        <div class="grid gap-8 md:grid-cols-2">
-          <!-- Movie Info -->
-          <div class="card">
-            <img src="${selectedMovie.image}" alt="${selectedMovie.title}" class="w-full h-96 object-cover rounded-md mb-4">
-            <h3 class="text-xl font-bold">${selectedMovie.title}</h3>
-            <p class="mt-2">Showtime: 7:30 PM</p>
-          </div>
-
-          <!-- Booking Form -->
-          <div>
-            <!-- Seat Selection -->
-            <div class="card p-4 mb-6">
-              <h4 class="text-lg font-semibold mb-2">Select Your Seats</h4>
-              <div class="text-center text-gray-400 font-semibold mb-2">Screen</div>
-              <div class="grid grid-cols-10 gap-2 justify-center mx-auto w-fit mb-4">
-                ${Array.from({ length: 50 }, (_, i) => {
-                  const seatNum = i + 1;
-                  return `
-                    <button 
-                      class="seat${selectedSeats.includes(seatNum) ? ' selected' : ''}" 
-                      onclick="toggleSeat(${seatNum})"
-                    >
-                      ${seatNum}
-                    </button>
-                  `;
-                }).join('')}
-              </div>
-              <p class="text-sm text-gray-400 text-center">Click seats to select/deselect</p>
-            </div>
-
-            <!-- Popcorn Combos -->
-            <div class="card p-4 mb-6">
-              <h4 class="text-lg font-semibold mb-2">Popcorn Combos</h4>
-              <div class="space-y-2">
-                ${combos.map((combo, idx) => `
-                  <div class="flex justify-between items-center">
-                    <span>${combo.name}</span>
-                    <div class="flex items-center gap-2">
-                      <button onclick="changeComboQty(-1)" class="btn-secondary px-2">−</button>
-                      <span>${comboQuantity}</span>
-                      <button onclick="changeComboQty(1)" class="btn-secondary px-2">+</button>
-                      <span class="font-medium">$${(combo.price * comboQuantity).toFixed(2)}</span>
-                    </div>
-                  </div>
-                `).join("")}
-              </div>
-            </div>
-
-            <!-- Summary Button -->
-            <button onclick="goToSummary()" class="btn-primary w-full py-3" ${selectedSeats.length === 0 ? "disabled" : ""}>
-              Proceed to Summary
+  <!-- Booking Form -->
+  <div class="booking-form card mb-6">
+    <!-- Seat Selection -->
+    <div class="card p-4 mb-6">
+      <h4 class="text-lg font-semibold mb-2">Select Your Seats</h4>
+      <div class="showtime-text text-center text-gray-400 font-semibold mb-2">Screen</div><br>
+      <div class="grid grid-cols-10 gap-2 justify-center mx-auto w-fit mb-4">
+        ${Array.from({ length: 50 }, (_, i) => {
+          const seatNum = i + 1;
+          return `
+            <button 
+              class="seat${selectedSeats.includes(seatNum) ? ' selected' : ''}" 
+              onclick="toggleSeat(${seatNum})"
+            >
+              ${seatNum}
             </button>
-          </div>
-        </div>
+          `;
+        }).join('')}
+      </div>
+      <p class="showtime-text text-sm text-gray-400 text-center">Click seats to select/deselect</p>
+    </div>
+
+    <!-- Popcorn Combos -->
+  <div class="card p-4 mb-6">
+    <h4 class="text-lg font-semibold mb-2">Popcorn Combos</h4>
+    <div class="space-y-2">
+      ${combos.map((combo, idx) => `
+        <label class="flex items-center gap-2">
+          <input 
+            type="checkbox" 
+            id="combo-${idx}" 
+            onclick="toggleCombo(${idx})"
+          />
+          <span>${combo.name}</span>
+          <span class="font-medium">$${combo.price.toFixed(2)}</span>
+        </label>
+      `).join("")}
+    </div>
+  </div>
+
+    <!-- Summary Button -->
+  <button onclick="goToSummary()" class="btn-primary w-full py-3" ${selectedSeats.length === 0 || selectedCombos.length === 0 ? "disabled" : ""}>
+    Proceed to Summary
+  </button>
+  </div>
+</div>
       </section>
     `;
   }

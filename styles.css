@@ -53,6 +53,7 @@ body {
 }
 
 .card {
+  padding: 1rem;
   background-color: var(--secondary-2);
   border-radius: 0.75rem;
   overflow: hidden;
@@ -249,14 +250,24 @@ section h2 {
   visibility: visible;
 }
 
+.grid {
+  display: grid;
+  gap: 0.3rem; /* Space between seats */
+}
+
+.grid-cols-10 {
+  grid-template-columns: repeat(10, 1fr); /* 10 equal-width columns */
+}
+
 .seat {
-  width: 2rem;
-  height: 2rem;
+  margin: auto;
+  width: 5rem;
+  height: 3rem;
   display: flex;
   align-items: center;
   justify-content: center;
   background-color: #4b5563;
-  border-radius: 0.25rem;
+  border-radius: 0.75rem;
   cursor: pointer;
   user-select: none;
   transition: background-color 0.2s ease;
@@ -266,4 +277,49 @@ section h2 {
   background-color: var(--accent-color);
   color: black;
   font-weight: bold;
+}
+
+.seat.unavailable {
+  background-color: gray;
+  cursor: not-allowed;
+}
+
+@media (max-width: 768px) {
+  .grid-cols-10 {
+    grid-template-columns: repeat(5, 1fr); /* 5 columns on smaller screens */
+  }
+}
+
+/* Center text for titles and headings */
+h1, h2, h3, h4 {
+  text-align: center;
+}
+
+.showtime-text {
+  text-align: center; /* Centers the text */
+  margin-top: 0.5rem; /* Adds some spacing above the text */
+}
+
+/* General margin for sections */
+.movie-info,
+.booking-form {
+  margin-bottom: 2rem; /* Adds space below each section */
+}
+
+/* Additional spacing for popcorn combos */
+.popcorn-combos {
+  margin-top: 2rem; /* Adds space above popcorn combos */
+}
+
+/* Ensure consistent padding around cards */
+.card {
+  padding: 1rem;
+}
+
+/* Optional: Add more spacing for larger screens */
+@media (min-width: 768px) {
+  .movie-info,
+  .booking-form {
+    margin-bottom: 3rem; /* More spacing on larger screens */
+  }
 }
