@@ -323,3 +323,13 @@ h1, h2, h3, h4 {
     margin-bottom: 3rem; /* More spacing on larger screens */
   }
 }
+
+.collapsible {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.3s ease-out;
+}
+
+.collapsible.open {
+  max-height: 300px; /* Adjust based on content height */
+}

@@ -2,7 +2,6 @@
 let currentPage = "home";
 let selectedMovie = null;
 let selectedSeats = [];
-let comboQuantity = 1;
 let comboDetails = []; // Will store selected combo details including options
 
 // Movie List
@@ -47,53 +46,6 @@ const combos = [
   }
 ];
 
-const popcornTotal = comboDetails.reduce((sum, c) => sum + c.basePrice * c.quantity, 0);
-
-function toggleCombo(index) {
-  const combo = combos[index];
-  const isChecked = document.getElementById(`combo-${index}`).checked;
-  const flavor = document.getElementById(`flavor-${index}`)?.value || combo.options.flavors[0];
-  const drink = document.getElementById(`drink-${index}`)?.value || combo.options.drinks[0];
-  const quantity = parseInt(document.getElementById(`quantity-${index}`)?.value) || 1;
-
-  if (isChecked) {
-    comboDetails.push({
-      index,
-      name: combo.name,
-      basePrice: combo.basePrice,
-      quantity,
-      flavor,
-      drink
-    });
-  } else {
-    comboDetails = comboDetails.filter(c => c.index !== index);
-  }
-
-  renderApp();
-}
-
-function updateComboOption(index) {
-  const combo = combos[index];
-  const isChecked = document.getElementById(`combo-${index}`).checked;
-
-  if (!isChecked) return;
-
-  const flavor = document.getElementById(`flavor-${index}`).value;
-  const drink = document.getElementById(`drink-${index}`).value;
-  const quantity = parseInt(document.getElementById(`quantity-${index}`).value);
-
-  const existingIndex = comboDetails.findIndex(c => c.index === index);
-  if (existingIndex > -1) {
-    comboDetails[existingIndex] = {
-      ...comboDetails[existingIndex],
-      flavor,
-      drink,
-      quantity
-    };
-  }
-
-  renderApp();
-}
 // Render App UI
 function renderApp() {
   const app = document.getElementById("app");
@@ -132,144 +84,138 @@ function renderApp() {
   else if (currentPage === "booking") {
     app.innerHTML = `
       <div class="container">
-  <!-- Movie Info -->
-  <div class="movie-info card mb-6">
-    <img src="${selectedMovie.image}" alt="${selectedMovie.title}" class="w-full h-96 object-cover rounded-md mb-4">
-    <h3 class="text-xl font-bold">${selectedMovie.title}</h3>
-    <p class="showtime-text">Showtime: 7:30 PM</p>
-  </div>
+        <!-- Movie Info -->
+        <div class="movie-info card mb-6">
+          <img src="${selectedMovie.image}" alt="${selectedMovie.title}" class="w-full h-96 object-cover rounded-md mb-4">
+          <h3 class="text-xl font-bold">${selectedMovie.title}</h3>
+          <p class="showtime-text">Showtime: 7:30 PM</p>
+        </div>
 
-  <!-- Booking Form -->
-  <div class="booking-form card mb-6">
-    <!-- Seat Selection -->
-    <div class="card p-4 mb-6">
-      <h4 class="text-lg font-semibold mb-2">Select Your Seats</h4>
-      <div class="showtime-text text-center text-gray-400 font-semibold mb-2">Screen</div><br>
-      <div class="grid grid-cols-10 gap-2 justify-center mx-auto w-fit mb-4">
-        ${Array.from({ length: 50 }, (_, i) => {
-          const seatNum = i + 1;
-          return `
-            <button 
-              class="seat${selectedSeats.includes(seatNum) ? ' selected' : ''}" 
-              onclick="toggleSeat(${seatNum})"
-            >
-              ${seatNum}
-            </button>
-          `;
-        }).join('')}
-      </div>
-      <p class="showtime-text text-sm text-gray-400 text-center">Click seats to select/deselect</p>
-    </div>
-
-    <!-- Popcorn Combos -->
-      <div class="card p-4 mb-6">
-  <h4 class="text-lg font-semibold mb-2">Popcorn Combos</h4>
-  <div class="space-y-4">
-    ${combos.map((combo, idx) => {
-      const detail = comboDetails.find(c => c.index === idx);
-      const quantity = detail ? detail.quantity : 1;
-      const flavor = detail ? detail.flavor : combo.options.flavors[0];
-      const drink = detail ? detail.drink : combo.options.drinks[0];
-
-      return `
-        <div class="border-b border-gray-700 pb-4">
-          <label class="flex items-center gap-2 mb-2">
-            <input 
-              type="checkbox" 
-              id="combo-${idx}" 
-              onclick="toggleCombo(${idx})"
-            />
-            <span>${combo.name}</span>
-            <span class="font-medium">$${combo.basePrice.toFixed(2)}</span>
-          </label>
-
-          <div id="combo-options-${idx}" class="${!detail ? 'hidden' : ''} ml-6 space-y-2">
-            <div>
-              <label>Flavor:</label>
-              <select id="flavor-${idx}" onchange="updateComboOption(${idx})" class="ml-2 bg-secondary-1 text-main-color rounded px-2 py-1">
-                ${combo.options.flavors.map(f => `<option value="${f}" ${f === flavor ? 'selected' : ''}>${f}</option>`).join("")}
-              </select>
+        <!-- Booking Form -->
+        <div class="booking-form card mb-6">
+          <!-- Seat Selection -->
+          <div class="card p-4 mb-6">
+            <h4 class="text-lg font-semibold mb-2">Select Your Seats</h4>
+            <div class="showtime-text text-center text-gray-400 font-semibold mb-2">Screen</div><br>
+            <div class="grid grid-cols-10 gap-2 justify-center mx-auto w-fit mb-4">
+              ${Array.from({ length: 50 }, (_, i) => {
+                const seatNum = i + 1;
+                return `
+                  <button 
+                    class="seat${selectedSeats.includes(seatNum) ? ' selected' : ''}" 
+                    onclick="toggleSeat(${seatNum})"
+                  >
+                    ${seatNum}
+                  </button>
+                `;
+              }).join('')}
             </div>
-            <div>
-              <label>Drink Size:</label>
-              <select id="drink-${idx}" onchange="updateComboOption(${idx})" class="ml-2 bg-secondary-1 text-main-color rounded px-2 py-1">
-                ${combo.options.drinks.map(d => `<option value="${d}" ${d === drink ? 'selected' : ''}>${d}</option>`).join("")}
-              </select>
-            </div>
-            <div>
-              <label>Quantity:</label>
-              <input type="number" min="1" value="${quantity}" id="quantity-${idx}" onchange="updateComboOption(${idx})" class="w-16 ml-2 bg-secondary-1 text-main-color rounded px-2 py-1">
+            <p class="showtime-text text-sm text-gray-400 text-center">Click seats to select/deselect</p>
+          </div>
+
+          <!-- Popcorn Combos -->
+          <div class="card p-4 mb-6">
+            <h4 class="text-lg font-semibold mb-2">Popcorn Combos</h4>
+            <div class="space-y-4">
+              ${combos.map((combo, idx) => {
+                const detail = comboDetails.find(c => c.index === idx);
+                const isVisible = detail ? 'open' : '';
+                const isChecked = detail ? 'checked' : '';
+                const flavor = detail?.flavor || combo.options.flavors[0];
+                const drink = detail?.drink || combo.options.drinks[0];
+                const quantity = detail?.quantity || 1;
+
+                return `
+                  <div class="border-b border-gray-700 pb-4">
+                    <!-- Checkbox -->
+                    <label class="flex items-center gap-2 mb-2">
+                      <input type="checkbox" id="combo-${idx}" onclick="toggleCombo(${idx})" ${isChecked}>
+                      <span>${combo.name}</span>
+                      <span class="font-medium">$${combo.basePrice.toFixed(2)}</span>
+                    </label>
+
+                    <!-- Options (conditionally shown + animated) -->
+                    <div id="combo-options-${idx}" class="collapsible ${isVisible} ml-6 space-y-2">
+                      <div>
+                        <label>Flavor:</label>
+                        <select id="flavor-${idx}" onchange="updateComboOption(${idx})" class="ml-2 bg-secondary-1 text-main-color rounded px-2 py-1">
+                          ${combo.options.flavors.map(f => `<option value="${f}" ${f === flavor ? 'selected' : ''}>${f}</option>`).join("")}
+                        </select>
+                      </div>
+                      <div>
+                        <label>Drink Size:</label>
+                        <select id="drink-${idx}" onchange="updateComboOption(${idx})" class="ml-2 bg-secondary-1 text-main-color rounded px-2 py-1">
+                          ${combo.options.drinks.map(d => `<option value="${d}" ${d === drink ? 'selected' : ''}>${d}</option>`).join("")}
+                        </select>
+                      </div>
+                      <div>
+                        <label>Quantity:</label>
+                        <input type="number" min="1" value="${quantity}" id="quantity-${idx}" onchange="updateComboOption(${idx})" class="w-16 ml-2 bg-secondary-1 text-main-color rounded px-2 py-1">
+                      </div>
+                    </div>
+                  </div>
+                `;
+              }).join("")}
             </div>
           </div>
+
+          <!-- Summary Button -->
+          <button onclick="goToSummary()" class="btn-primary w-full py-3" ${selectedSeats.length === 0 || comboDetails.length === 0 ? "disabled" : ""}>
+            Proceed to Summary
+          </button>
         </div>
-      `;
-    }).join("")}
-  </div>
-</div>
-
-
-<div class="border-t border-gray-700 pt-4">
-  <h4 class="font-medium mb-2">Popcorn Combos:</h4>
-  <div class="space-y-2">
-    ${comboDetails.length > 0 ? comboDetails.map(combo => `
-      <div>
-        <p class="text-sm">${combo.quantity} x ${combo.name} — Flavor: ${combo.flavor}, Drink: ${combo.drink}</p>
-        <p class="text-xs text-gray-400">Total: $${(combo.basePrice * combo.quantity).toFixed(2)}</p>
       </div>
-    `).join("") : '<p class="text-sm">No combos selected</p>'}
-  </div>
-</div>
-
-
-    <!-- Summary Button -->
-    <button onclick="goToSummary()" class="btn-primary w-full py-3" ${selectedSeats.length === 0 ? "disabled" : ""}>
-      Proceed to Summary
-    </button>
-  </div>
-</div>
-      </section>
     `;
   }
 
   else if (currentPage === "summary") {
     const totalSeats = selectedSeats.length;
-    const popcornTotal = combos.reduce((sum, c) => sum + c.price * comboQuantity, 0);
+    const popcornTotal = comboDetails.reduce((sum, c) => sum + c.basePrice * c.quantity, 0);
     const totalPrice = totalSeats * 12 + popcornTotal;
 
     app.innerHTML = `
-  <section class="container">
-    <button class="btn-primary mb-4" onclick="goBackHome()">← Back to Home</button>
-    <div class="card p-6 max-w-2xl mx-auto text-center">
-      <h2 class="text-3xl font-bold mb-6 text-accent">CinemaMax Ticket</h2>
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-16 h-16 mx-auto mb-4 text-accent">
-        <path d="M12 2L2 7l10 5 10-5-10-5z"/>
-        <path d="M2 17l10 5 10-5"/>
-        <path d="M2 12l10 5 10-5"/>
-      </svg>
-      <h3 class="text-2xl font-bold">${selectedMovie.title}</h3>
-      <p class="text-gray-400 mt-1">Showtime: 7:30 PM</p>
+      <section class="container">
+        <button class="btn-primary mb-4" onclick="goBackSummary()">← Back to Booking</button>
+        <div class="card p-6 max-w-3xl mx-auto">
+          <h2 class="text-3xl font-bold mb-6 text-accent text-center">Booking Summary</h2>
+          <div class="space-y-4 mb-6">
+            <div>
+              <h3 class="text-xl font-semibold">${selectedMovie.title}</h3>
+              <p class="text-gray-400">Showtime: 7:30 PM</p>
+            </div>
 
-      <div class="mt-6 space-y-3 text-left">
-        <p><strong>Seats:</strong> ${selectedSeats.join(", ") || "No seats selected"}</p>
-        
-        <!-- ✅ This is where we place the updated combo list -->
-        <p><strong>Combos:</strong> ${
-          comboDetails.length > 0 
-            ? comboDetails.map(c => `${c.quantity} x ${c.name} (${c.flavor}, ${c.drink})`).join('<br>')
-            : 'None'
-        }</p>
+            <div class="border-t border-gray-700 pt-4">
+              <h4 class="font-medium mb-2">Selected Seats:</h4>
+              <div class="flex flex-wrap gap-2">
+                ${selectedSeats.map(s => `<span class="px-3 py-1 bg-accent text-main-color rounded-full text-sm">Seat ${s}</span>`).join("")}
+              </div>
+              <p class="text-sm text-gray-400 mt-1">Price per seat: $12</p>
+            </div>
 
-        <p><strong>Date:</strong> Today, ${new Date().toLocaleDateString()}</p>
-      </div>
+            <div class="border-t border-gray-700 pt-4">
+              <h4 class="font-medium mb-2">Popcorn Combos:</h4>
+              <div class="space-y-2">
+                ${comboDetails.length > 0 
+                  ? comboDetails.map(combo => `
+                    <div>
+                      <p class="text-sm">${combo.quantity} x ${combo.name} — Flavor: ${combo.flavor}, Drink: ${combo.drink}</p>
+                      <p class="text-xs text-gray-400">Total: $${(combo.basePrice * combo.quantity).toFixed(2)}</p>
+                    </div>
+                  `).join("")
+                  : '<p class="text-sm">No combos selected</p>'
+                }
+              </div>
+            </div>
 
-      <div class="mt-6 text-center text-sm text-gray-400">
-        Please arrive at least 15 minutes before showtime.
-      </div>
-
-      <button onclick="goBackHome()" class="btn-primary w-full py-3 mt-6">Back to Home</button>
-    </div>
-  </section>
-`;
+            <div class="border-t border-gray-700 pt-4">
+              <h4 class="font-medium mb-2">Total Amount:</h4>
+              <p class="text-2xl font-bold text-accent">$${totalPrice.toFixed(2)}</p>
+            </div>
+          </div>
+          <button onclick="goToTicket()" class="btn-primary w-full py-3">Confirm Booking</button>
+        </div>
+      </section>
+    `;
   }
 
   else if (currentPage === "ticket") {
@@ -290,7 +236,11 @@ function renderApp() {
 
           <div class="mt-6 space-y-3 text-left">
             <p><strong>Seats:</strong> ${selectedSeats.join(", ") || "No seats selected"}</p>
-            <p><strong>Combos:</strong> ${comboQuantity} x Large Popcorn Combo</p>
+            <p><strong>Combos:</strong> ${
+              comboDetails.length > 0 
+                ? comboDetails.map(c => `${c.quantity} x ${c.name} (${c.flavor}, ${c.drink})`).join('<br>')
+                : 'None'
+            }</p>
             <p><strong>Date:</strong> Today, ${new Date().toLocaleDateString()}</p>
           </div>
 
@@ -309,14 +259,24 @@ function renderApp() {
 function goToBooking(movieId) {
   selectedMovie = movies.find(m => m.id === movieId);
   currentPage = "booking";
+  selectedSeats = [];
+  comboDetails = [];
   renderApp();
+
+  // Animate collapsible after render
+  setTimeout(() => {
+    comboDetails.forEach(detail => {
+      const optionDiv = document.getElementById(`combo-options-${detail.index}`);
+      if (optionDiv) optionDiv.classList.add('open');
+    });
+  }, 100);
 }
 
 function goToHome() {
   currentPage = "home";
   selectedMovie = null;
   selectedSeats = [];
-  comboQuantity = 1;
+  comboDetails = [];
   renderApp();
 }
 
@@ -330,8 +290,73 @@ function toggleSeat(seat) {
   renderApp();
 }
 
-function changeComboQty(change) {
-  comboQuantity = Math.max(1, comboQuantity + change);
+function toggleCombo(index) {
+  const combo = combos[index];
+  const isChecked = document.getElementById(`combo-${index}`).checked;
+
+  if (isChecked) {
+    const flavor = combo.options.flavors[0];
+    const drink = combo.options.drinks[0];
+    const quantity = 1;
+
+    const existingIndex = comboDetails.findIndex(c => c.index === index);
+    if (existingIndex > -1) {
+      comboDetails[existingIndex] = {
+        index,
+        name: combo.name,
+        basePrice: combo.basePrice,
+        quantity,
+        flavor,
+        drink
+      };
+    } else {
+      comboDetails.push({
+        index,
+        name: combo.name,
+        basePrice: combo.basePrice,
+        quantity,
+        flavor,
+        drink
+      });
+    }
+  } else {
+    comboDetails = comboDetails.filter(c => c.index !== index);
+  }
+
+  renderApp();
+
+  // After re-render, animate collapsible
+  setTimeout(() => {
+    const optionDiv = document.getElementById(`combo-options-${index}`);
+    if (optionDiv) {
+      if (isChecked) {
+        optionDiv.classList.add('open');
+      } else {
+        optionDiv.classList.remove('open');
+      }
+    }
+  }, 100);
+}
+
+function updateComboOption(index) {
+  const combo = combos[index];
+  const isChecked = document.getElementById(`combo-${index}`).checked;
+  if (!isChecked) return;
+
+  const flavor = document.getElementById(`flavor-${index}`).value;
+  const drink = document.getElementById(`drink-${index}`).value;
+  const quantity = parseInt(document.getElementById(`quantity-${index}`).value) || 1;
+
+  const existingIndex = comboDetails.findIndex(c => c.index === index);
+  if (existingIndex > -1) {
+    comboDetails[existingIndex] = {
+      ...comboDetails[existingIndex],
+      flavor,
+      drink,
+      quantity
+    };
+  }
+
   renderApp();
 }
 
@@ -366,21 +391,24 @@ const menuToggle = document.getElementById("menuToggle");
 const sidebar = document.getElementById("sidebar");
 const overlay = document.getElementById("overlay");
 
-menuToggle.addEventListener("click", () => {
-  sidebar.classList.toggle("active");
-  overlay.classList.toggle("active");
-});
+if (menuToggle && sidebar && overlay) {
+  menuToggle.addEventListener("click", () => {
+    sidebar.classList.toggle("active");
+    overlay.classList.toggle("active");
+  });
 
-overlay.addEventListener("click", () => {
-  sidebar.classList.remove("active");
-  overlay.classList.remove("active");
-});
+  overlay.addEventListener("click", () => {
+    sidebar.classList.remove("active");
+    overlay.classList.remove("active");
+  });
+}
 
-// Make functions globally accessible in HTML
+// Make functions globally accessible
 window.goToBooking = goToBooking;
 window.goToHome = goToHome;
 window.toggleSeat = toggleSeat;
-window.changeComboQty = changeComboQty;
+window.toggleCombo = toggleCombo;
+window.updateComboOption = updateComboOption;
 window.goToSummary = goToSummary;
 window.goBackSummary = goBackSummary;
 window.goToTicket = goToTicket;
