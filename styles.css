@@ -409,3 +409,12 @@ h1, h2, h3, h4 {
   margin-bottom: 2rem;
 }
 
+.gohomebtn{
+  margin-bottom: 1rem;
+}
+
+svg {
+  width: 20%;  /* ปรับขนาดตามต้องการ */
+  display: block;      /* เปลี่ยนจาก inline เป็น block */
+  margin: 0 auto;      /* จัดกึ่งกลางแนวนอน */
+}

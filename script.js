@@ -83,7 +83,10 @@ function renderApp() {
 
   else if (currentPage === "booking") {
     app.innerHTML = `
+    
       <div class="container">
+       <!-- Back to Home Button -->
+      <button class="gohomebtn btn-primary mb-4" onclick="goToHome()">← Back to Home</button>
         <!-- Movie Info -->
         <div class="movie-info card mb-6">
           <img src="${selectedMovie.image}" alt="${selectedMovie.title}" class="w-full h-96 object-cover rounded-md mb-4">
@@ -205,9 +208,9 @@ function renderApp() {
     const totalPrice = totalSeats * 12 + popcornTotal;
 
     app.innerHTML = `
-      <section class="container">
-        <button class="btn-primary mb-4" onclick="goBackSummary()">← Back to Booking</button>
-        <div class="card p-6 max-w-3xl mx-auto">
+      <section class="container showtime-text">
+        <button class="gohomebtn btn-primary mb-4" onclick="goToHome()">← Back to Home</button>
+        <div class="card p-6 max-w-3xl mx-auto gohomebtn">
           <h2 class="text-3xl font-bold mb-6 text-accent text-center">Booking Summary</h2>
           <div class="space-y-4 mb-6">
             <div>
@@ -243,7 +246,7 @@ function renderApp() {
               <p class="text-2xl font-bold text-accent">$${totalPrice.toFixed(2)}</p>
             </div>
           </div>
-          <button onclick="goToTicket()" class="btn-primary w-full py-3">Confirm Booking</button>
+          <br><button onclick="goToTicket()" class="btn-primary w-full py-3">Confirm Booking</button>
         </div>
       </section>
     `;
@@ -254,10 +257,10 @@ function renderApp() {
 
     app.innerHTML = `
       <section class="container">
-        <button class="btn-primary mb-4" onclick="goBackHome()">← Back to Home</button>
+        <button class="gohomebtn btn-primary mb-4" onclick="goToHome()">← Back to Home</button>
         <div class="card p-6 max-w-2xl mx-auto text-center">
           <h2 class="text-3xl font-bold mb-6 text-accent">CinemaMax Ticket</h2>
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-16 h-16 mx-auto mb-4 text-accent">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-8 h-8 mx-auto mb-4 text-accent">
             <path d="M12 2L2 7l10 5 10-5-10-5z"/>
             <path d="M2 17l10 5 10-5"/>
             <path d="M2 12l10 5 10-5"/>
@@ -276,7 +279,7 @@ function renderApp() {
           <div class="mt-6 text-center text-sm text-gray-400">
             Please arrive at least 15 minutes before showtime.
           </div>
-          <button onclick="goBackHome()" class="btn-primary w-full py-3 mt-6">Back to Home</button>
+          <br><button class="btn-primary w-full py-3 mt-6 mb-4" onclick="goToHome()">Back to Home</button>
         </div>
       </section>
     `;
