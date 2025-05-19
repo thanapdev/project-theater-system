@@ -113,84 +113,82 @@ function renderApp() {
             <p class="showtime-text text-sm text-gray-400 text-center">Click seats to select/deselect</p>
           </div>
 
-        <!-- Popcorn Combos -->
-<div class="card p-4 mb-6">
-  <h4 class="text-lg font-semibold mb-2">Popcorn Combos</h4>
+          <!-- Popcorn Combos -->
+<div class="popcorn-layout mt-8 grid md:grid-cols-2 gap-4 undercard">
 
-  <!-- Grid Layout -->
-  <div class="grid md:grid-cols-2 gap-6">
-    <!-- Left Side - Combo Selection -->
-    <div>
-      ${combos.map((combo, idx) => {
-        const detail = comboDetails.find(c => c.index === idx);
-        const isVisible = detail ? 'open' : '';
-        const isChecked = detail ? 'checked' : '';
-        const flavor = detail?.flavor || combo.options.flavors[0];
-        const drink = detail?.drink || combo.options.drinks[0];
-        const quantity = detail?.quantity || 1;
+  <!-- Left Side - Combo Options -->
+  <div class="card p-4">
+    <h4 class="text-lg font-semibold mb-6">Popcorn Combos</h4>
+    ${combos.map((combo, idx) => {
+      const detail = comboDetails.find(c => c.index === idx);
+      const isVisible = detail ? 'open' : '';
+      const isChecked = detail ? 'checked' : '';
+      const flavor = detail?.flavor || combo.options.flavors[0];
+      const drink = detail?.drink || combo.options.drinks[0];
+      const quantity = detail?.quantity || 1;
 
-        return `
-          <div class="border-b border-gray-700 pb-4">
-            <!-- Checkbox -->
-            <label class="flex items-center gap-2 mb-2 cursor-pointer">
-              <input type="checkbox" id="combo-${idx}" onclick="toggleCombo(${idx})" ${isChecked}>
-              <span class="font-medium">${combo.name}</span>
-              <span class="ml-auto text-accent">$${combo.basePrice.toFixed(2)}</span>
-            </label>
+      return `
+        <div class="border-b border-gray-700 pb-4">
+          <!-- Checkbox -->
+          <label class="flex items-center gap-2 mb-2 cursor-pointer">
+            <input type="checkbox" id="combo-${idx}" onclick="toggleCombo(${idx})" ${isChecked}>
+            <span class="font-medium">${combo.name}</span>
+            <span class="ml-auto text-accent">$${combo.basePrice.toFixed(2)}</span>
+          </label>
 
-            <!-- Options -->
-            <div id="combo-options-${idx}" class="collapsible ${isVisible} mt-3 ml-6 space-y-3">
-              <div class="flex flex-col sm:flex-row sm:items-center gap-2">
-                <label class="w-full sm:w-24">Flavor:</label>
-                <select id="flavor-${idx}" onchange="updateComboOption(${idx})" class="bg-secondary-1 text-main-color rounded px-3 py-1 w-full sm:w-auto">
-                  ${combo.options.flavors.map(f => `<option value="${f}" ${f === flavor ? 'selected' : ''}>${f}</option>`).join("")}
-                </select>
-              </div>
+          <!-- Options -->
+          <div id="combo-options-${idx}" class="collapsible ${isVisible} mt-3 ml-6 space-y-3">
+            <div class="flex flex-col sm:flex-row sm:items-center gap-2">
+              <label class="w-full sm:w-24">Flavor:</label>
+              <select id="flavor-${idx}" onchange="updateComboOption(${idx})" class="bg-secondary-1 text-main-color rounded px-3 py-1 w-full sm:w-auto">
+                ${combo.options.flavors.map(f => `<option value="${f}" ${f === flavor ? 'selected' : ''}>${f}</option>`).join("")}
+              </select>
+            </div>
 
-              <div class="flex flex-col sm:flex-row sm:items-center gap-2">
-                <label class="w-full sm:w-24">Drink Size:</label>
-                <select id="drink-${idx}" onchange="updateComboOption(${idx})" class="bg-secondary-1 text-main-color rounded px-3 py-1 w-full sm:w-auto">
-                  ${combo.options.drinks.map(d => `<option value="${d}" ${d === drink ? 'selected' : ''}>${d}</option>`).join("")}
-                </select>
-              </div>
+            <div class="flex flex-col sm:flex-row sm:items-center gap-2">
+              <label class="w-full sm:w-24">Drink Size:</label>
+              <select id="drink-${idx}" onchange="updateComboOption(${idx})" class="bg-secondary-1 text-main-color rounded px-3 py-1 w-full sm:w-auto">
+                ${combo.options.drinks.map(d => `<option value="${d}" ${d === drink ? 'selected' : ''}>${d}</option>`).join("")}
+              </select>
+            </div>
 
-              <div class="flex flex-col sm:flex-row sm:items-center gap-2">
-                <label class="w-full sm:w-24">Quantity:</label>
-                <div class="flex items-center justify-between sm:justify-start w-full max-w-xs">
-                  <button onclick="changeComboQuantity(${idx}, -1)" class="btn-secondary px-2 mr-2">−</button>
-                  <input type="number" min="1" value="${quantity}" id="quantity-${idx}" onchange="updateComboOption(${idx})" class="w-16 bg-secondary-1 text-main-color rounded px-2 py-1 text-center">
-                  <button onclick="changeComboQuantity(${idx}, 1)" class="btn-secondary px-2 ml-2">+</button>
-                </div>
+            <div class="flex flex-col sm:flex-row sm:items-center gap-2">
+              <label class="w-full sm:w-24">Quantity:</label>
+              <div class="flex items-center justify-between sm:justify-start w-full max-w-xs">
+                <button onclick="changeComboQuantity(${idx}, -1)" class="btn-secondary px-2 mr-2">−</button>
+                <input type="number" min="1" value="${quantity}" id="quantity-${idx}" onchange="updateComboOption(${idx})" class="w-16 bg-secondary-1 text-main-color rounded px-2 py-1 text-center">
+                <button onclick="changeComboQuantity(${idx}, 1)" class="btn-secondary px-2 ml-2">+</button>
               </div>
             </div>
           </div>
-        `;
-      }).join("")}
-    </div>
-
-    <!-- Right Side - Summary of Selected Combos -->
-    <div class="p-4 bg-secondary-1 rounded-md h-fit sticky top-24">
-      <h5 class="font-bold mb-4">Your Selections</h5>
-      <div class="space-y-2 mb-4">
-        ${comboDetails.length > 0 
-          ? comboDetails.map(c => `
-              <div class="flex justify-between">
-                <span>${c.quantity} x ${c.name}</span>
-                <span>$${(c.basePrice * c.quantity).toFixed(2)}</span>
-              </div>
-            `).join("")
-          : '<p class="text-sm text-gray-400">No combos selected</p>'
-        }
-      </div>
-      <div class="border-t border-gray-600 pt-3 mt-3">
-        <div class="flex justify-between font-bold">
-          <span>Total:</span>
-          <span>$${comboDetails.reduce((sum, c) => sum + c.basePrice * c.quantity, 0).toFixed(2)}</span>
         </div>
+      `;
+    }).join("")}
+  </div>
+
+  <!-- Right Side - Summary Box -->
+  <div class="card p-4 h-fit sticky top-24">
+    <h5 class="font-bold mb-4">Your Selections</h5>
+    <div class="space-y-2 mb-4">
+      ${comboDetails.length > 0 
+        ? comboDetails.map(c => `
+          <div class="flex justify-between">
+            <span>${c.quantity} x ${c.name}</span>
+            <span>$${(c.basePrice * c.quantity).toFixed(2)}</span>
+          </div>
+        `).join("")
+        : '<p class="text-sm text-gray-400">No combos selected</p>'
+      }
+    </div>
+    <div class="border-t border-gray-600 pt-3 mt-3">
+      <div class="flex justify-between font-bold">
+        <span>Total:</span>
+        <span>$${comboDetails.reduce((sum, c) => sum + c.basePrice * c.quantity, 0).toFixed(2)}</span>
       </div>
     </div>
   </div>
 </div>
+
 
           <!-- Summary Button -->
           <button onclick="goToSummary()" class="btn-primary w-full py-3" ${selectedSeats.length === 0 || comboDetails.length === 0 ? "disabled" : ""}>
@@ -266,7 +264,6 @@ function renderApp() {
           </svg>
           <h3 class="text-2xl font-bold">${selectedMovie.title}</h3>
           <p class="text-gray-400 mt-1">Showtime: 7:30 PM</p>
-
           <div class="mt-6 space-y-3 text-left">
             <p><strong>Seats:</strong> ${selectedSeats.join(", ") || "No seats selected"}</p>
             <p><strong>Combos:</strong> ${
@@ -276,42 +273,14 @@ function renderApp() {
             }</p>
             <p><strong>Date:</strong> Today, ${new Date().toLocaleDateString()}</p>
           </div>
-
           <div class="mt-6 text-center text-sm text-gray-400">
             Please arrive at least 15 minutes before showtime.
           </div>
-
           <button onclick="goBackHome()" class="btn-primary w-full py-3 mt-6">Back to Home</button>
         </div>
       </section>
     `;
   }
-}
-
-function changeComboQuantity(index, change) {
-  const combo = combos[index];
-  const existingIndex = comboDetails.findIndex(c => c.index === index);
-
-  if (existingIndex > -1) {
-    const newQty = Math.max(1, comboDetails[existingIndex].quantity + change);
-    comboDetails[existingIndex] = {
-      ...comboDetails[existingIndex],
-      quantity: newQty
-    };
-  } else {
-    comboDetails.push({
-      index,
-      name: combo.name,
-      basePrice: combo.basePrice,
-      quantity: 1,
-      flavor: combo.options.flavors[0],
-      drink: combo.options.drinks[0]
-    });
-    document.getElementById(`combo-${index}`).checked = true;
-    document.getElementById(`combo-options-${index}`).classList.add('open');
-  }
-
-  renderApp();
 }
 
 // Navigation Functions
@@ -322,7 +291,6 @@ function goToBooking(movieId) {
   comboDetails = [];
   renderApp();
 
-  // Animate collapsible after render
   setTimeout(() => {
     comboDetails.forEach(detail => {
       const optionDiv = document.getElementById(`combo-options-${detail.index}`);
@@ -361,12 +329,10 @@ function toggleCombo(index) {
     const existingIndex = comboDetails.findIndex(c => c.index === index);
     if (existingIndex > -1) {
       comboDetails[existingIndex] = {
-        index,
-        name: combo.name,
-        basePrice: combo.basePrice,
-        quantity,
+        ...comboDetails[existingIndex],
         flavor,
-        drink
+        drink,
+        quantity
       };
     } else {
       comboDetails.push({
@@ -384,7 +350,7 @@ function toggleCombo(index) {
 
   renderApp();
 
-  // After re-render, animate collapsible
+  // Animate collapsible after re-rendering
   setTimeout(() => {
     const optionDiv = document.getElementById(`combo-options-${index}`);
     if (optionDiv) {
@@ -400,11 +366,12 @@ function toggleCombo(index) {
 function updateComboOption(index) {
   const combo = combos[index];
   const isChecked = document.getElementById(`combo-${index}`).checked;
+
   if (!isChecked) return;
 
-  const flavor = document.getElementById(`flavor-${index}`).value;
-  const drink = document.getElementById(`drink-${index}`).value;
-  const quantity = parseInt(document.getElementById(`quantity-${index}`).value) || 1;
+  const flavor = document.getElementById(`flavor-${index}`)?.value || combo.options.flavors[0];
+  const drink = document.getElementById(`drink-${index}`)?.value || combo.options.drinks[0];
+  const quantity = parseInt(document.getElementById(`quantity-${index}`)?.value) || 1;
 
   const existingIndex = comboDetails.findIndex(c => c.index === index);
   if (existingIndex > -1) {
@@ -414,6 +381,40 @@ function updateComboOption(index) {
       drink,
       quantity
     };
+  } else {
+    comboDetails.push({
+      index,
+      name: combo.name,
+      basePrice: combo.basePrice,
+      quantity,
+      flavor,
+      drink
+    });
+  }
+
+  renderApp();
+}
+
+function changeComboQuantity(index, change) {
+  const combo = combos[index];
+  const existingIndex = comboDetails.findIndex(c => c.index === index);
+
+  if (existingIndex > -1) {
+    const newQty = Math.max(1, comboDetails[existingIndex].quantity + change);
+    comboDetails[existingIndex] = {
+      ...comboDetails[existingIndex],
+      quantity: newQty
+    };
+  } else {
+    comboDetails.push({
+      index,
+      name: combo.name,
+      basePrice: combo.basePrice,
+      quantity: 1,
+      flavor: combo.options.flavors[0],
+      drink: combo.options.drinks[0]
+    });
+    document.getElementById(`combo-${index}`).checked = true;
   }
 
   renderApp();
@@ -468,6 +469,7 @@ window.goToHome = goToHome;
 window.toggleSeat = toggleSeat;
 window.toggleCombo = toggleCombo;
 window.updateComboOption = updateComboOption;
+window.changeComboQuantity = changeComboQuantity;
 window.goToSummary = goToSummary;
 window.goBackSummary = goBackSummary;
 window.goToTicket = goToTicket;
