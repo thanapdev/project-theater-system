@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Now Showing - CinemaMax</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+  <!-- Navbar -->
+  <header class="navbar">
+    <div class="container flex justify-between items-center py-4">
+      <h1 class="text-2xl font-bold text-yellow">CinemaMax</h1>
+      <nav class="hidden md:flex space-x-6">
+        <a href="index.html" class="hover:text-yellow transition">Home</a>
+        <a href="#" class="hover:text-yellow transition">Movies</a>
+        <a href="#" class="hover:text-yellow transition">Contact</a>
+      </nav>
+      <!-- Mobile Menu Toggle -->
+      <button id="menuToggle" class="md:hidden text-yellow">
+        ☰
+      </button>
+    </div>
+  </header>
+
+  <!-- Sidebar (Optional) -->
+  <div class="sidebar" id="sidebar">
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="nowShowing.html" class="active">Now Showing</a>
+      <a href="#">Coming Soon</a>
+      <a href="#">Bookings</a>
+      <a href="#">Contact</a>
+    </nav>
+  </div>
+
+  <!-- Overlay for sidebar -->
+  <div class="overlay" id="overlay"></div>
+
+  <!-- Now Showing Section -->
+  <main class="container mt-8">
+    <h2 class="text-3xl font-bold mb-6 text-accent">Now Showing</h2>
+    
+    <div class="carousel">
+      <div class="carousel-track" id="carouselTrack">
+        <!-- Movies will be injected by script.js -->
+      </div>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="mt-12 text-center text-gray-500 text-sm pb-6">
+    &copy; 2025 CinemaMax. All rights reserved.
+  </footer>
+
+  <!-- Script -->
+  <script src="script.js" type="module"></script>
+</body>
+</html>

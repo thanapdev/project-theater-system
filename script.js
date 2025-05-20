@@ -479,4 +479,10 @@ window.goToTicket = goToTicket;
 
 // Start App
 renderApp();
+// Check if we're on nowShowing.html
+if (window.location.pathname.endsWith("nowShowing.html")) {
+  currentPage = "home"; // Reuse the same home layout
+  renderApp();
+}
+
 startCarousel();
