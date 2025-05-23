@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Coming Soon - CinemaMax</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+  <!-- Navbar -->
+  <header class="navbar">
+    <div class="container flex justify-between items-center py-4">
+      <h1 class="text-2xl font-bold text-yellow">CinemaMax</h1>
+      <nav class="hidden md:flex space-x-6">
+        <a href="index.html" class="hover:text-yellow transition">Home</a>
+        <a href="nowShowing.html" class="hover:text-yellow transition">Now Showing</a>
+        <a href="#" class="hover:text-yellow transition active">Coming Soon</a>
+        <a href="#" class="hover:text-yellow transition">Contact</a>
+      </nav>
+
+      <!-- Mobile Menu Toggle -->
+      <button id="menuToggle" class="md:hidden text-yellow">☰</button>
+    </div>
+  </header>
+
+  <!-- Sidebar (Optional) -->
+  <div class="sidebar" id="sidebar">
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="nowShowing.html">Now Showing</a>
+      <a href="comingSoon.html" class="active">Coming Soon</a>
+      <a href="#">Bookings</a>
+      <a href="#">Contact</a>
+    </nav>
+  </div>
+
+  <!-- Overlay for sidebar -->
+  <div class="overlay" id="overlay"></div>
+
+  <!-- Coming Soon Section -->
+  <main class="container mt-8">
+    <h2 class="text-3xl font-bold mb-6 text-accent">Coming Soon</h2>
+
+    <div class="movie-grid">
+      ${movies.filter(m => m.type === "soon").map(m => `
+        <div class="card opacity-70">
+          <img src="${m.image}" alt="${m.title}">
+          <h3>${m.title}</h3>
+          <p class="text-sm text-gray-400 mt-1">${m.description || "Details coming soon..."}</p>
+        </div>
+      `).join("")}
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="mt-12 text-center text-gray-500 text-sm pb-6">
+    &copy; 2025 CinemaMax. All rights reserved.
+  </footer>
+
+  <!-- Scripts -->
+  <script type="module">
+    // You can optionally load JS from script.js
+    import { goToBooking } from './script.js';
+
+    window.goToBooking = goToBooking;
+    document.getElementById('menuToggle').addEventListener('click', () => {
+      document.getElementById('sidebar').classList.toggle('active');
+      document.getElementById('overlay').classList.toggle('active');
+    });
+  </script>
+</body>
+</html>
