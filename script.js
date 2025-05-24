@@ -338,6 +338,29 @@ function renderApp() {
       </section>
     `;
   }
+
+  else if (currentPage === "aboutMe") {
+  app.innerHTML = `
+    <section class="about-me">
+      <img src="https://avatars.githubusercontent.com/u/102853264?v=4" alt="thanapdev GitHub Avatar" />
+      <h1>Thanapong Yamkamol</h1>
+      <p>
+        <strong>Full Stack Developer | Web Enthusiast</strong>
+      </p>
+      <p>
+        Hello! My name is Thanapong Yamkamol, also known as <b>thanapdev</b>.<br>
+        I am the developer of CinemaMax, this online movie ticket booking system.<br>
+        I am passionate about Web Development, JavaScript, and new technologies.<br>
+        <br>
+        Check out more of my projects at
+        <a href="https://github.com/thanapdev" target="_blank">GitHub: thanapdev</a>
+      </p>
+      <p>
+        Contact: <a href="mailto:thanap151255@gmail.com">thanap151255@gmail.com</a>
+      </p>
+    </section>
+  `;
+}
 }
 
 // Navigation Functions
@@ -535,28 +558,29 @@ window.goToTicket = goToTicket;
 
 // Start App
 renderApp();
-// Check if we're on nowShowing.html
-if (window.location.pathname.endsWith("nowShowing.html")) {
-  currentPage = "home"; // Reuse the same home layout
-  renderApp();
-}
 
-startCarousel();
+// ตรวจสอบ path ก่อน render main
+const app = document.getElementById('app');
+const path = window.location.pathname;
 
-// ด้านล่างสุดของ script.js
-if (window.location.pathname.endsWith("index.html") || window.location.pathname === "/") {
-  currentPage = "home";
-  renderApp();
-} else if (window.location.pathname.endsWith("nowShowing.html")) {
-  currentPage = "nowShowing";
-  renderApp();
-} else if (window.location.pathname.endsWith("comingSoon.html")) {
-  currentPage = "comingSoon";
-  renderApp();
-} else if (window.location.pathname.endsWith("booking.html")) {
-  const urlParams = new URLSearchParams(window.location.search);
-  const movieId = parseInt(urlParams.get("movieId"));
-  selectedMovie = movies.find(m => m.id === movieId);
-  currentPage = "booking";
-  renderApp();
+if (app) {
+  if (path.endsWith("index.html") || path === "/" || path.endsWith("/")) {
+    currentPage = "home";
+    renderApp();
+  } else if (path.endsWith("nowShowing.html")) {
+    currentPage = "nowShowing";
+    renderApp();
+  } else if (path.endsWith("comingSoon.html")) {
+    currentPage = "comingSoon";
+    renderApp();
+  } else if (path.endsWith("booking.html")) {
+    const urlParams = new URLSearchParams(window.location.search);
+    const movieId = parseInt(urlParams.get("movieId"));
+    selectedMovie = movies.find(m => m.id === movieId);
+    currentPage = "booking";
+    renderApp();
+  } else if (path.endsWith("aboutMe.html")) {
+    currentPage = "aboutMe";
+    renderApp();
+  }
 }
