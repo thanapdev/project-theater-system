@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>About Me - CinemaMax</title>
+  <link rel="stylesheet" href="styles.css" />
+  <style>
+    .about-me {
+      max-width: 600px;
+      margin: 60px auto;
+      background: #fff;
+      border-radius: 12px;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.07);
+      padding: 2rem 2.5rem;
+      text-align: center;
+    }
+    .about-me img {
+      width: 120px;
+      height: 120px;
+      border-radius: 50%;
+      margin-bottom: 1rem;
+      object-fit: cover;
+      border: 3px solid #e50914;
+    }
+    .about-me h1 {
+      margin-bottom: 0.5rem;
+      color: #e50914;
+    }
+    .about-me p {
+      color: #333;
+      font-size: 1.1rem;
+    }
+  </style>
+</head>
+<body>
+  <!-- Navbar -->
+  <header class="navbar">
+    <div class="container flex justify-between items-center py-4">
+      <div class="logo">CinemaMax</div>
+
+      <!-- Hamburger Icon -->
+      <div class="menu-toggle" id="menuToggle">
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
+    </div>
+  </header>
+
+  <!-- Sidebar -->
+  <div class="sidebar" id="sidebar">
+    <nav>
+      <a href="index.html" >Home</a>
+      <a href="nowShowing.html">Go to Now Showing</a>
+      <a href="comingSoon.html">Coming Soon</a>
+      <a href="#">Bookings</a>
+      <a href="#">Contact</a>
+      <a href="aboutMe.html">About Me</a>
+    </nav>
+  </div>
+
+  <main id="app">
+    <section class="about-me">
+      <img src="https://i.pravatar.cc/120?img=3" alt="Profile Picture" />
+      <h1>About Me</h1>
+      <p>สวัสดีครับ ผมชื่อ [ชื่อของคุณ] เป็นผู้พัฒนาเว็บไซต์ CinemaMax ระบบจองตั๋วหนังออนไลน์นี้ สร้างขึ้นเพื่อฝึกฝนและพัฒนาทักษะด้าน Web Development</p>
+      <p>หากมีข้อเสนอแนะหรือปัญหาใด ๆ สามารถติดต่อได้ทางอีเมล <a href="mailto:example@email.com">example@email.com</a></p>
+    </section>
+  </main>
+    <div class="overlay" id="overlay"></div>
+    <script src="script.js" type="module"></script>
+</body>
+</html>
