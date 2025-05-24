@@ -2,13 +2,12 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Now Showing - CinemaMax</title>
   <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
 
-   <!-- Navbar -->
+  <!-- Navbar -->
   <header class="navbar">
     <div class="container flex justify-between items-center py-4">
       <div class="logo">CinemaMax</div>
@@ -22,34 +21,24 @@
     </div>
   </header>
 
-  <!-- Sidebar (Optional) -->
+  <!-- Sidebar -->
   <div class="sidebar" id="sidebar">
     <nav>
-      <a href="index.html">Home</a>
-      <a href="nowShowing.html" class="active">Now Showing</a>
-      <a href="#">Coming Soon</a>
+      <a href="index.html" >Home</a>
+      <a href="nowShowing.html">Go to Now Showing</a>
+      <a href="comingSoon.html">Coming Soon</a>
       <a href="#">Bookings</a>
       <a href="#">Contact</a>
     </nav>
   </div>
 
-  <!-- Overlay -->
   <div class="overlay" id="overlay"></div>
 
-  <!-- Now Showing Section -->
-  <main class="container mt-8">
-    <h2 class="text-3xl font-bold mb-6 text-accent">Now Showing</h2>
-    
-    <div class="carousel">
-      <div class="carousel-track" id="carouselTrack">
-        <!-- Movies will be injected here -->
-      </div>
-    </div>
-  </main>
+  <!-- จุดที่ script.js จะเรนเดอร์หน้า -->
+  <div id="app"></div>
 
-
-  
-  <!-- Script -->
+  <!-- Load JS Module -->
   <script src="script.js" type="module"></script>
+
 </body>
 </html>

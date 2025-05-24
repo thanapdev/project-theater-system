@@ -6,16 +6,27 @@ let comboDetails = []; // Will store selected combo details including options
 
 // Movie List
 const movies = [
-  { id: 1, title: "Epic Adventure", image: "https://placehold.co/300x450?text=Epic+Adventure " },
-  { id: 2, title: "Space Warriors", image: "https://placehold.co/300x450?text=Space+Warriors " },
-  { id: 3, title: "Mystery of Shadows", image: "https://placehold.co/300x450?text=Mystery+of+Shadows " },
-  { id: 4, title: "Ocean's Fury", image: "https://placehold.co/300x450?text=Oceans+Fury " },
-  { id: 5, title: "City Lights", image: "https://placehold.co/300x450?text=City+Lights " },
-  { id: 6, title: "Desert Storm", image: "https://placehold.co/300x450?text=Desert+Storm " },
-  { id: 7, title: "The Last Hero", image: "https://placehold.co/300x450?text=The+Last+Hero " },
-  { id: 8, title: "Zombie Attack", image: "https://placehold.co/300x450?text=Zombie+Attack " },
-  { id: 9, title: "Sky High", image: "https://placehold.co/300x450?text=Sky+High " },
-  { id: 10, title: "Midnight Escape", image: "https://placehold.co/300x450?text=Midnight+Escape " },
+  { id: 1, title: "Epic Adventure", image: "https://placehold.co/300x450?text=Epic+Adventure " , type: "now" },
+  { id: 2, title: "Space Warriors", image: "https://placehold.co/300x450?text=Space+Warriors " , type: "now"},
+  { id: 3, title: "Mystery of Shadows", image: "https://placehold.co/300x450?text=Mystery+of+Shadows " , type: "now"},
+  { id: 4, title: "Ocean's Fury", image: "https://placehold.co/300x450?text=Oceans+Fury " , type: "now"},
+  { id: 5, title: "City Lights", image: "https://placehold.co/300x450?text=City+Lights " , type: "now"},
+  { id: 6, title: "Desert Storm", image: "https://placehold.co/300x450?text=Desert+Storm " , type: "now"},
+  { id: 7, title: "The Last Hero", image: "https://placehold.co/300x450?text=The+Last+Hero " , type: "now"},
+  { id: 8, title: "Zombie Attack", image: "https://placehold.co/300x450?text=Zombie+Attack " , type: "now"},
+  { id: 9, title: "Sky High", image: "https://placehold.co/300x450?text=Sky+High " , type: "now"},
+  { id: 10, title: "Midnight Escape", image: "https://placehold.co/300x450?text=Midnight+Escape " , type: "now"},
+   // Coming Soon (10 movies)
+  { id: 11, title: "Alien Invasion", image: "https://placehold.co/300x450?text=Alien+Invasion ", type: "soon" },
+  { id: 12, title: "Dragon Fire", image: "https://placehold.co/300x450?text=Dragon+Fire ", type: "soon" },
+  { id: 13, title: "Time Traveler", image: "https://placehold.co/300x450?text=Time+Traveler ", type: "soon" },
+  { id: 14, title: "Robot Revolution", image: "https://placehold.co/300x450?text=Robot+Revolution ", type: "soon" },
+  { id: 15, title: "Shadow Realm", image: "https://placehold.co/300x450?text=Shadow+Realm ", type: "soon" },
+  { id: 16, title: "Neon City", image: "https://placehold.co/300x450?text=Neon+City ", type: "soon" },
+  { id: 17, title: "Kingdom of Magic", image: "https://placehold.co/300x450?text=Kingdom+of+Magic ", type: "soon" },
+  { id: 18, title: "Underwater Odyssey", image: "https://placehold.co/300x450?text=Underwater+Odyssey ", type: "soon" },
+  { id: 19, title: "Cyber Rebellion", image: "https://placehold.co/300x450?text=Cyber+Rebellion ", type: "soon" },
+  { id: 20, title: "The Final Battle", image: "https://placehold.co/300x450?text=The+Final+Battle ", type: "soon" }
 ];
 
 // Popcorn Combos
@@ -51,6 +62,7 @@ function renderApp() {
   const app = document.getElementById("app");
 
   if (currentPage === "home") {
+    // เหมือนเดิม - แสดงทั้ง carousel และ available movies
     app.innerHTML = `
       <section class="container">
         <h2 class="text-3xl font-bold mb-6 text-accent">Now Showing</h2>
@@ -80,6 +92,48 @@ function renderApp() {
     `;
     startCarousel();
   }
+
+  else if (currentPage === "nowShowing") {
+    // แสดงเฉพาะ Now Showing
+    const nowMovies = movies.filter(m => m.type === "now");
+    if (nowMovies.length === 0) nowMovies = [...movies]; // fallback
+
+    app.innerHTML = `
+      <section class="container">
+        <h2 class="text-3xl font-bold mb-6 text-accent">Now Showing</h2>
+        <div class="movie-grid">
+          ${movies.map(m => `
+            <div class="card" onclick="goToBooking(${m.id})">
+              <img src="${m.image}" alt="${m.title}">
+              <h3>${m.title}</h3>
+            </div>
+          `).join("")}
+        </div>
+      </section>
+    `;
+    startCarousel();
+  }
+
+  else if (currentPage === "comingSoon") {
+    // แสดงเฉพาะ Coming Soon
+    const soonMovies = movies.filter(m => m.type === "soon");
+
+    app.innerHTML = `
+      <section class="container mt-8">
+        <h2 class="text-3xl font-bold mb-6 text-accent">Coming Soon</h2>
+        <div class="movie-grid">
+          ${soonMovies.map(m => `
+            <div class="card opacity-70">
+              <img src="${m.image}" alt="${m.title}">
+              <h3>${m.title}</h3>
+              <p class="text-sm text-gray-400 mt-1">Details coming soon...</p>
+            </div>
+          `).join("")}
+        </div>
+      </section>
+    `;
+  }
+
 
   else if (currentPage === "booking") {
     app.innerHTML = `
@@ -441,6 +495,8 @@ function goToTicket() {
 // Carousel Animation
 function startCarousel() {
   const track = document.getElementById("carouselTrack");
+  if (!track) return;
+
   let index = 0;
   setInterval(() => {
     index++;
@@ -486,3 +542,21 @@ if (window.location.pathname.endsWith("nowShowing.html")) {
 }
 
 startCarousel();
+
+// ด้านล่างสุดของ script.js
+if (window.location.pathname.endsWith("index.html") || window.location.pathname === "/") {
+  currentPage = "home";
+  renderApp();
+} else if (window.location.pathname.endsWith("nowShowing.html")) {
+  currentPage = "nowShowing";
+  renderApp();
+} else if (window.location.pathname.endsWith("comingSoon.html")) {
+  currentPage = "comingSoon";
+  renderApp();
+} else if (window.location.pathname.endsWith("booking.html")) {
+  const urlParams = new URLSearchParams(window.location.search);
+  const movieId = parseInt(urlParams.get("movieId"));
+  selectedMovie = movies.find(m => m.id === movieId);
+  currentPage = "booking";
+  renderApp();
+}

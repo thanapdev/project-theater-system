@@ -33,39 +33,13 @@
     </nav>
   </div>
 
-  <!-- Overlay for sidebar -->
   <div class="overlay" id="overlay"></div>
 
-  <!-- Coming Soon Section -->
-  <main class="container mt-8">
-    <h2 class="text-3xl font-bold mb-6 text-accent">Coming Soon</h2>
+  <!-- จุดที่ script.js จะเรนเดอร์หน้า -->
+  <div id="app"></div>
 
-    <div class="movie-grid">
-      ${movies.filter(m => m.type === "soon").map(m => `
-        <div class="card opacity-70">
-          <img src="${m.image}" alt="${m.title}">
-          <h3>${m.title}</h3>
-          <p class="text-sm text-gray-400 mt-1">${m.description || "Details coming soon..."}</p>
-        </div>
-      `).join("")}
-    </div>
-  </main>
+  <!-- Load JS Module -->
+  <script src="script.js" type="module"></script>
 
-  <!-- Footer -->
-  <footer class="mt-12 text-center text-gray-500 text-sm pb-6">
-    &copy; 2025 CinemaMax. All rights reserved.
-  </footer>
-
-  <!-- Scripts -->
-  <script type="module">
-    // You can optionally load JS from script.js
-    import { goToBooking } from './script.js';
-
-    window.goToBooking = goToBooking;
-    document.getElementById('menuToggle').addEventListener('click', () => {
-      document.getElementById('sidebar').classList.toggle('active');
-      document.getElementById('overlay').classList.toggle('active');
-    });
-  </script>
 </body>
 </html>
