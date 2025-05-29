@@ -100,7 +100,6 @@ project-theater-system/
 ## Developer
 
 - **GitHub:** [thanapdev](https://github.com/thanapdev)
-- **Email:** thanapol.dechpol@gmail.com
 
 ---
 
